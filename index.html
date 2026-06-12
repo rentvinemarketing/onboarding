@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onboarding | Rentvine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --vine:#00A54F;
+    --dew:#CAF5DF;
+    --blue:#167FE1;
+    --sky:#BCE5FF;
+    --night:#111111;
+    --smoke:#494949;
+    --stone:#7E7E7E;
+    --paper:#F1F1F1;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    color:var(--night);
+    line-height:1.5;
+    background:var(--white);
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  h1,h2,h3,h4{font-weight:800;letter-spacing:-0.02em;line-height:1.1;}
+  h2{font-size:clamp(28px,4vw,44px);}
+  h3{font-size:clamp(20px,2.6vw,28px);}
+  p{font-size:17px;color:var(--smoke);}
+  .eyebrow{
+    font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;
+    color:var(--vine);margin-bottom:14px;
+  }
+  .btn{
+    display:inline-block;font-weight:700;font-size:16px;text-transform:lowercase;
+    text-decoration:none;padding:15px 28px;border-radius:999px;transition:transform .15s ease,opacity .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--vine);color:var(--white);}
+  .btn-light{background:var(--white);color:var(--night);}
+  .btn-outline{border:2px solid rgba(255,255,255,.5);color:var(--white);}
+
+  /* generic dashboard mockup (swap for a real Rentvine screenshot) */
+  .dash{background:var(--white);border-radius:16px;box-shadow:0 26px 70px rgba(0,0,0,.22);overflow:hidden;border:1px solid #ececec;}
+  .dash .bar{height:42px;background:var(--night);display:flex;align-items:center;gap:7px;padding:0 16px;}
+  .dash .bar i{width:10px;height:10px;border-radius:50%;display:block;}
+  .dash .bar .t{margin-left:12px;color:rgba(255,255,255,.7);font-size:12px;font-weight:600;}
+  .dash .body{padding:18px;}
+  .dash .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+  .dash .kpi{background:var(--paper);border-radius:10px;padding:12px;}
+  .dash .kpi .v{font-size:18px;font-weight:800;color:var(--night);}
+  .dash .kpi .l{font-size:10px;color:var(--stone);margin-top:3px;}
+  .dash .chart{display:flex;align-items:flex-end;gap:8px;height:96px;padding:10px;background:var(--paper);border-radius:10px;margin-bottom:14px;}
+  .dash .chart span{flex:1;border-radius:5px 5px 0 0;background:linear-gradient(var(--vine),#3ee089);}
+  .dash .rows .row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid #eee;}
+  .dash .rows .row:first-child{border-top:none;}
+  .dash .rows .av{width:26px;height:26px;border-radius:50%;background:var(--dew);flex:none;}
+  .dash .rows .ln{height:8px;border-radius:4px;background:#e3e3e3;}
+
+  /* HERO */
+  .hero{
+    background:linear-gradient(160deg,#0a3d23 0%,var(--vine) 45%,var(--blue) 100%);
+    color:var(--white);padding:92px 0 84px;position:relative;overflow:hidden;
+  }
+  .hero::after{
+    content:"";position:absolute;right:-120px;top:-120px;width:480px;height:480px;
+    background:radial-gradient(circle,rgba(188,229,255,.35),transparent 65%);border-radius:50%;
+  }
+  .hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;}
+  .hero h1{font-size:clamp(34px,5vw,56px);color:var(--white);margin-bottom:20px;}
+  .hero p{font-size:19px;color:rgba(255,255,255,.9);max-width:560px;margin-bottom:32px;}
+  .hero .btns{display:flex;gap:14px;flex-wrap:wrap;}
+  .tagline{
+    display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+    color:var(--white);font-size:14px;font-weight:600;padding:8px 16px;border-radius:999px;margin-bottom:24px;
+  }
+  .hero-visual{position:relative;}
+  .hero-visual .dash{transform:rotate(1.5deg);}
+
+  /* STATS */
+  .stats{background:var(--night);color:var(--white);}
+  .stats .grid{display:grid;grid-template-columns:repeat(5,1fr);text-align:center;}
+  .stat{padding:38px 18px;border-right:1px solid rgba(255,255,255,.08);}
+  .stat:last-child{border-right:none;}
+  .stat .num{font-size:clamp(28px,3.4vw,40px);font-weight:800;color:var(--white);line-height:1;}
+  .stat .num .accent{color:#3ee089;}
+  .stat .lbl{font-size:13px;color:rgba(255,255,255,.65);margin-top:10px;line-height:1.35;}
+
+  /* SECTION base */
+  section.block{padding:84px 0;}
+  .section-head{max-width:680px;margin-bottom:48px;}
+  .section-head p{font-size:19px;margin-top:14px;}
+
+  /* HEAVY LIFTING / MIGRATION */
+  .lift{background:var(--paper);}
+  .lift-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .lift-card{background:var(--white);border-radius:18px;padding:32px 28px;border:1px solid #e7e7e7;}
+  .lift-card .ic{
+    width:48px;height:48px;border-radius:12px;background:var(--dew);color:var(--vine);
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-weight:800;font-size:22px;
+  }
+  .lift-card h3{font-size:20px;margin-bottom:10px;}
+  .lift-card p{font-size:15px;}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:52px;border-radius:18px;overflow:hidden;border:1px solid #e7e7e7;}
+  .split>div{padding:34px 32px;}
+  .split .we{background:var(--vine);color:var(--white);}
+  .split .you{background:var(--white);}
+  .split h4{font-size:18px;margin-bottom:18px;}
+  .split .we h4{color:var(--white);}
+  .split ul{list-style:none;}
+  .split li{font-size:15px;padding:9px 0 9px 28px;position:relative;border-top:1px solid rgba(0,0,0,.06);}
+  .split .we li{color:rgba(255,255,255,.95);border-top:1px solid rgba(255,255,255,.18);}
+  .split li:first-of-type{border-top:none;}
+  .split li::before{content:"";position:absolute;left:0;top:15px;width:14px;height:8px;border-left:2px solid;border-bottom:2px solid;transform:rotate(-45deg);}
+  .split .we li::before{border-color:var(--white);}
+  .split .you li::before{border-color:var(--vine);}
+
+  /* WHO'S INVOLVED / ORBIT GRAPHIC */
+  .team .inner{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center;}
+  .team .copy h2{margin-bottom:16px;}
+  .team .copy p{font-size:18px;}
+  .team .roles{list-style:none;margin-top:26px;}
+  .team .roles li{padding:14px 0;border-top:1px solid #eaeaea;}
+  .team .roles li:first-child{border-top:none;}
+  .team .roles .r{font-weight:800;font-size:16px;color:var(--night);}
+  .team .roles .d{font-size:14px;color:var(--smoke);margin-top:2px;}
+  .orbit{position:relative;width:100%;max-width:480px;margin:0 auto;aspect-ratio:1/1;}
+  .orbit svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:1;}
+  .orbit .center{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:48%;z-index:3;
+  }
+  .orbit .center .dash{box-shadow:0 18px 44px rgba(0,0,0,.20);}
+  .orbit .node{
+    position:absolute;transform:translate(-50%,-50%);z-index:4;text-align:center;width:118px;
+  }
+  .orbit .node .face{
+    width:60px;height:60px;border-radius:50%;margin:0 auto 7px;
+    background:linear-gradient(150deg,var(--dew),var(--sky));
+    display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:var(--vine);
+    border:3px solid var(--white);box-shadow:0 6px 18px rgba(0,0,0,.14);background-size:cover;background-position:center;
+  }
+  .orbit .node.more .face{background:var(--vine);color:var(--white);font-size:26px;}
+  .orbit .node .nm{font-size:13px;font-weight:800;color:var(--night);line-height:1.1;}
+  .orbit .node .ti{font-size:11px;color:var(--stone);line-height:1.15;margin-top:1px;}
+
+  /* TIMELINE */
+  .tl{background:var(--night);color:var(--white);}
+  .tl .section-head p{color:rgba(255,255,255,.75);}
+  .tl-steps{display:grid;gap:18px;}
+  .tl-step{
+    display:grid;grid-template-columns:64px 1fr;gap:22px;align-items:start;
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:26px 28px;
+  }
+  .tl-step .n{
+    width:48px;height:48px;border-radius:12px;background:linear-gradient(150deg,var(--vine),var(--blue));
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:var(--white);
+  }
+  .tl-step h3{font-size:20px;color:var(--white);margin-bottom:6px;}
+  .tl-step .who{font-size:13px;font-weight:700;color:#3ee089;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+  .tl-step p{font-size:15px;color:rgba(255,255,255,.78);}
+
+  /* TRAINING */
+  .train-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:stretch;}
+  .train-card{border-radius:18px;padding:36px 34px;}
+  .train-main{background:linear-gradient(150deg,var(--dew),var(--sky));}
+  .train-main h3{margin-bottom:14px;}
+  .train-main ul{list-style:none;margin-top:18px;}
+  .train-main li{font-size:16px;color:var(--night);padding:10px 0 10px 30px;position:relative;font-weight:500;}
+  .train-main li::before{content:"";position:absolute;left:0;top:14px;width:14px;height:8px;border-left:2.5px solid var(--vine);border-bottom:2.5px solid var(--vine);transform:rotate(-45deg);}
+  .train-side{background:var(--night);color:var(--white);display:flex;flex-direction:column;justify-content:center;}
+  .train-side h3{color:var(--white);}
+  .train-side .big{font-size:50px;font-weight:800;color:#3ee089;line-height:1;margin:8px 0 6px;}
+  .train-side p{color:rgba(255,255,255,.78);font-size:15px;}
+  .train-side .rule{height:1px;background:rgba(255,255,255,.14);margin:24px 0;}
+
+  /* MIGRATION DETAIL */
+  .mig-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  .mig-card{border-radius:18px;padding:34px 32px;}
+  .mig-yes{background:var(--white);border:2px solid var(--vine);}
+  .mig-no{background:var(--paper);border:1px solid #e0e0e0;}
+  .mig-card h3{font-size:20px;margin-bottom:6px;}
+  .mig-card .sub{font-size:14px;color:var(--stone);margin-bottom:18px;}
+  .mig-card ul{list-style:none;}
+  .mig-card li{font-size:14px;padding:7px 0 7px 24px;position:relative;color:var(--smoke);border-top:1px solid #ededed;}
+  .mig-card li:first-child{border-top:none;}
+  .mig-yes li::before{content:"+";position:absolute;left:0;color:var(--vine);font-weight:800;}
+  .mig-no li::before{content:"\2192";position:absolute;left:0;color:var(--stone);font-weight:800;}
+  .mig-note{font-size:15px;background:var(--sky);color:#0a4b85;border-radius:12px;padding:16px 20px;margin-top:22px;font-weight:600;}
+
+  /* SUPPORT */
+  .support{background:linear-gradient(160deg,var(--blue),var(--vine));color:var(--white);}
+  .support .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;}
+  .support h2{color:var(--white);}
+  .support p{color:rgba(255,255,255,.92);font-size:18px;margin:16px 0 28px;}
+  .support-stats{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .support-stats .box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:14px;padding:24px;}
+  .support-stats .num{font-size:32px;font-weight:800;color:var(--white);line-height:1;}
+  .support-stats .lbl{font-size:14px;color:rgba(255,255,255,.85);margin-top:8px;}
+
+  @media(max-width:900px){
+    .hero .wrap{grid-template-columns:1fr;gap:40px;}
+    .hero-visual{max-width:460px;}
+    .stats .grid{grid-template-columns:repeat(2,1fr);}
+    .stat:nth-child(2){border-right:none;}
+    .lift-grid,.mig-grid,.train-grid,.split,.support .wrap,.team .inner{grid-template-columns:1fr;}
+    .team .inner{gap:48px;}
+    .support .wrap{gap:32px;}
+  }
+  @media(max-width:560px){
+    .stats .grid{grid-template-columns:1fr;}
+    .stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.08);}
+    .orbit .node{width:96px;}
+    .orbit .node .face{width:46px;height:46px;font-size:17px;}
+    .orbit .node .nm{font-size:11px;}
+    .orbit .node .ti{font-size:10px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="tagline">property management software worth switching for</span>
+      <h1>Switching is the hard part. So we do it for you.</h1>
+      <p>You shouldn't have to choose between better software and a brutal migration. Rentvine handles up to 80% of the move, completes your first reconciliation, and gets you live in an average of 42 days.</p>
+      <div class="btns">
+        <a href="#demo" class="btn btn-light">schedule a demo</a>
+        <a href="#how" class="btn btn-outline">see how it works</a>
+      </div>
+    </div>
+    <!-- HERO VISUAL: swap .dash for a real Rentvine dashboard screenshot -->
+    <div class="hero-visual">
+      <div class="dash">
+        <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="t">Rentvine &mdash; Dashboard</span></div>
+        <div class="body">
+          <div class="kpis">
+            <div class="kpi"><div class="v">$1.2M</div><div class="l">Collected</div></div>
+            <div class="kpi"><div class="v">98%</div><div class="l">Occupancy</div></div>
+            <div class="kpi"><div class="v">42</div><div class="l">Open work orders</div></div>
+          </div>
+          <div class="chart"><span style="height:46%"></span><span style="height:64%"></span><span style="height:52%"></span><span style="height:80%"></span><span style="height:70%"></span><span style="height:92%"></span><span style="height:60%"></span></div>
+          <div class="rows">
+            <div class="row"><span class="av"></span><span class="ln" style="width:55%"></span></div>
+            <div class="row"><span class="av"></span><span class="ln" style="width:72%"></span></div>
+            <div class="row"><span class="av"></span><span class="ln" style="width:40%"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="wrap">
+    <div class="grid">
+      <div class="stat"><div class="num">42<span class="accent">d</span></div><div class="lbl">average time from signed contract to live</div></div>
+      <div class="stat"><div class="num">80<span class="accent">%</span></div><div class="lbl">of the migration we handle for you</div></div>
+      <div class="stat"><div class="num">1&ndash;3<span class="accent">hr</span></div><div class="lbl">month-end close after switching</div></div>
+      <div class="stat"><div class="num">35<span class="accent">min</span></div><div class="lbl">average support response time</div></div>
+      <div class="stat"><div class="num">#1</div><div class="lbl">ranked property management software, 2026 VPI report</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HEAVY LIFTING / MIGRATION -->
+<section class="block lift" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">the switch</div>
+      <h2>We know switching software isn't fun. So we handle almost all of it.</h2>
+      <p>Your contacts, owners, vendors, residents, properties and leases come over for you. You keep running your business while we do the heavy lifting in the background.</p>
+    </div>
+
+    <div class="lift-grid">
+      <div class="lift-card">
+        <div class="ic">&rarr;</div>
+        <h3>We move your data</h3>
+        <p>Owners, portfolios, properties, residents, leases and vendors migrate over. No manual re-entry, no copy-paste marathons.</p>
+      </div>
+      <div class="lift-card">
+        <div class="ic">&#9783;</div>
+        <h3>We rebuild your leases</h3>
+        <p>Every active lease is recreated, and we help your owners and residents get into their new portals.</p>
+      </div>
+      <div class="lift-card">
+        <div class="ic">&#10003;</div>
+        <h3>We reconcile your books</h3>
+        <p>A financial analyst completes your balance forward and your first reconciliation, so day one starts clean.</p>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="we">
+        <h4>what we handle</h4>
+        <ul>
+          <li>Migrating active owners, properties, residents, leases and vendors</li>
+          <li>Building your balance forward workbook with a financial analyst</li>
+          <li>Full bank account reconciliation when you go live</li>
+          <li>Forte merchant setup for electronic payments</li>
+          <li>Marketing syndication and third-party integrations</li>
+        </ul>
+      </div>
+      <div class="you">
+        <h4>what you do</h4>
+        <ul>
+          <li>Send us your data exports and chart of accounts</li>
+          <li>Pick your cut-off date for your old software</li>
+          <li>Join your orientation and training calls</li>
+          <li>Review and confirm your settings and balances</li>
+          <li>Track every step in OnRamp, your onboarding portal</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO'S INVOLVED / ORBIT GRAPHIC -->
+<section class="block team">
+  <div class="wrap inner">
+    <div class="copy">
+      <div class="eyebrow">your team</div>
+      <h2>You're not doing this alone. A whole team comes with you.</h2>
+      <p>From the day you sign on, real Rentvine people own your move, an onboarding specialist out front, with experts pulled in exactly when you need them.</p>
+      <ul class="roles">
+        <li><div class="r">Onboarding specialist</div><div class="d">Your main point of contact, managing the timeline, your calls and every step of the move.</div></li>
+        <li><div class="r">Financial analyst</div><div class="d">Builds your balance forward workbook and walks you through your first reconciliation.</div></li>
+        <li><div class="r">Application &amp; screening</div><div class="d">Customizes your application and fast-tracks credentialing for credit, criminal and eviction data.</div></li>
+        <li><div class="r">Trainers &amp; support</div><div class="d">Hands-on training for your whole team, plus support that knows your setup once you're live.</div></li>
+      </ul>
+    </div>
+
+    <!-- ORBIT: faces orbit a live dashboard. Swap .face background for real headshots. -->
+    <div class="orbit">
+      <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <g stroke="#cfe9da" stroke-width="0.6">
+          <line x1="50" y1="50" x2="50" y2="8"/>
+          <line x1="50" y1="50" x2="86" y2="29"/>
+          <line x1="50" y1="50" x2="86" y2="71"/>
+          <line x1="50" y1="50" x2="50" y2="92"/>
+          <line x1="50" y1="50" x2="14" y2="71"/>
+          <line x1="50" y1="50" x2="14" y2="29"/>
+        </g>
+      </svg>
+
+      <div class="center">
+        <div class="dash">
+          <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div>
+          <div class="body" style="padding:12px;">
+            <div class="chart" style="height:62px;margin-bottom:10px;"><span style="height:50%"></span><span style="height:72%"></span><span style="height:58%"></span><span style="height:88%"></span><span style="height:66%"></span></div>
+            <div class="rows">
+              <div class="row" style="padding:6px 0;"><span class="av" style="width:18px;height:18px;"></span><span class="ln" style="width:60%"></span></div>
+              <div class="row" style="padding:6px 0;"><span class="av" style="width:18px;height:18px;"></span><span class="ln" style="width:45%"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="node" style="left:50%;top:8%;"><div class="face">A</div><div class="nm">Amber</div><div class="ti">Onboarding specialist</div></div>
+      <div class="node" style="left:86%;top:29%;"><div class="face">M</div><div class="nm">Marcus</div><div class="ti">Financial analyst</div></div>
+      <div class="node" style="left:86%;top:71%;"><div class="face">J</div><div class="nm">Jordan</div><div class="ti">App &amp; screening</div></div>
+      <div class="node" style="left:50%;top:92%;"><div class="face">S</div><div class="nm">Sam</div><div class="ti">Website onboarding</div></div>
+      <div class="node" style="left:14%;top:71%;"><div class="face">T</div><div class="nm">Tasha</div><div class="ti">Trainer</div></div>
+      <div class="node more" style="left:14%;top:29%;"><div class="face">+</div><div class="nm">Your whole team</div><div class="ti">behind every account</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="block tl" id="timeline">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" style="color:#3ee089;">how it works</div>
+      <h2>From signed to live in about six weeks.</h2>
+      <p>A clear path with no guesswork. Here's exactly what happens, who's driving it, and what you can expect at each step.</p>
+    </div>
+    <div class="tl-steps">
+      <div class="tl-step">
+        <div class="n">1</div>
+        <div>
+          <div class="who">you + onboarding specialist</div>
+          <h3>Kickoff &amp; setup</h3>
+          <p>Your onboarding specialist reaches out right away. You'll share company info, billing, door count and your chart of accounts, and get a full walkthrough of what's ahead in OnRamp.</p>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="n">2</div>
+        <div>
+          <div class="who">2&ndash;4 orientation calls</div>
+          <h3>Configure your account</h3>
+          <p>We tailor Rentvine to how you actually operate: account and bank info, management and late fee structure, accounting settings, owner and resident portals, and maintenance setup.</p>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="n">3</div>
+        <div>
+          <div class="who">rentvine migration team</div>
+          <h3>Migrate your data</h3>
+          <p>You pick a cut-off date to stop entering transactions in your old software. We migrate your active owners, properties, residents, leases and vendors into Rentvine.</p>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="n">4</div>
+        <div>
+          <div class="who">you + financial analyst</div>
+          <h3>Financial balance forward</h3>
+          <p>Your analyst helps you complete a Balance Forward Workbook: unpaid bills, resident charges, prepayments, owner balances, security deposits, and owner and vendor 1099s. We validate it, then load it in.</p>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="n">5</div>
+        <div>
+          <div class="who">rentvine, for you</div>
+          <h3>Reconcile &amp; go live</h3>
+          <p>We complete a full reconciliation of your bank accounts so your brought-forward balances match to the dollar. Forte merchant setup is finished, and electronic payments are switched on.</p>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="n">6</div>
+        <div>
+          <div class="who">you + account manager</div>
+          <h3>Graduate &amp; grow</h3>
+          <p>You meet your dedicated account manager and move into ongoing support. Onboarding is done, but training and help never stop.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAINING -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">training</div>
+      <h2>World-class training. Unlimited, for everyone.</h2>
+      <p>Training is included for the life of your account, no matter your size, and your whole team is always welcome to join. Built around the workflows you run every day.</p>
+    </div>
+    <div class="train-grid">
+      <div class="train-card train-main">
+        <h3>Training built around real workflows</h3>
+        <p>Typically two sessions a week while you onboard, then more once you're live. Sessions cover the work you actually do:</p>
+        <ul>
+          <li>Portfolios, owner statements and pay-owner workflow</li>
+          <li>Accounting: money in, money out, bills and management fees</li>
+          <li>Maintenance, work orders and diagnostics</li>
+          <li>RentSign, reporting, renewals and move-outs</li>
+          <li>Contacts, portals, dashboards and global settings</li>
+        </ul>
+      </div>
+      <div class="train-card train-side">
+        <h3>Unlimited for the life of your account</h3>
+        <div class="big">&#8734;</div>
+        <p>Every customer gets unlimited training, no matter how many doors you manage, and anyone on your team can hop into any session.</p>
+        <div class="rule"></div>
+        <h3>On-site for larger accounts</h3>
+        <p>1,000+ door accounts also get on-site training with a dedicated team, in your office.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MIGRATION DETAIL -->
+<section class="block lift">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">what comes over</div>
+      <h2>Clear about what moves, and what doesn't.</h2>
+      <p>We bring over everything you need to run from day one. Want your full history too? We can handle that as well.</p>
+    </div>
+    <div class="mig-grid">
+      <div class="mig-card mig-yes">
+        <h3>Comes over for you</h3>
+        <div class="sub">All current, active data</div>
+        <ul>
+          <li>Owners, portfolios and ownership structure</li>
+          <li>Properties, units, rents and deposits</li>
+          <li>Residents and lease details</li>
+          <li>Vendors with banking and insurance info</li>
+          <li>Balance forward: unpaid bills, prepayments, owner balances, security deposits</li>
+          <li>Owner and vendor 1099s</li>
+        </ul>
+      </div>
+      <div class="mig-card mig-no">
+        <h3>Optional add-on</h3>
+        <div class="sub">Your full history</div>
+        <ul>
+          <li>Historical owner statements</li>
+          <li>Past ledgers and transaction history</li>
+          <li>Old marketing photos and descriptions</li>
+        </ul>
+        <div class="mig-note">Want your full history brought over? We can handle that too. Just ask your onboarding specialist.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT (closing section) -->
+<section class="block support">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow" style="color:var(--white);">support</div>
+      <h2>Customer service is our culture.</h2>
+      <p>When onboarding wraps, our support team takes it from there, fast. It's why our companies have won NARPM Affiliate of the Year more than once.</p>
+      <a href="#demo" class="btn btn-light">schedule a demo</a>
+    </div>
+    <div class="support-stats">
+      <div class="box"><div class="num">35 min</div><div class="lbl">average response time</div></div>
+      <div class="box"><div class="num">Unlimited</div><div class="lbl">training for the life of your account</div></div>
+      <div class="box"><div class="num">Real humans</div><div class="lbl">who know your setup, not a ticket queue</div></div>
+      <div class="box"><div class="num">NARPM</div><div class="lbl">Affiliate of the Year, multiple times</div></div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
